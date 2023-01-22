@@ -23,8 +23,8 @@ export const Container = () => {
   // }
 
   const [boxes, setBoxes] = useState([
-    { top: 20, left: 80, title: 'Drag me around' },
-    { top: 180, left: 20, title: 'Drag me too' },
+    // { top: 20, left: 80, title: 'Drag me around' },
+    // { top: 180, left: 20, title: 'Drag me too' },
   ])
 
   const moveBox = useCallback(
@@ -58,7 +58,7 @@ export const Container = () => {
     
     setBoxes([
       ...boxes, 
-      { top: 20, left: 200, title: label ? label : randomEmoji() }
+      { top: 50, left: 400, title: label ? label : randomEmoji(), duration: timerDuration }
     ]);
     
     // clear the input fields
@@ -84,14 +84,14 @@ export const Container = () => {
         onChange={e => setTimerDuration(e.target.value)}
       />
 
-      {boxes.map(({ top, left, title }, key) => {
+      {boxes.map(({ top, left, title, timerDuration }, key) => {
         return (
           <Box
             key={key}
             id={key}
             left={left}
             top={top}
-            hideSourceOnDrag
+            timerDuration={timerDuration}
           >
             {title}
           </Box>
