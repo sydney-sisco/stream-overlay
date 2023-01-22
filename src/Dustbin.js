@@ -27,17 +27,17 @@ export const Dustbin = () => {
 
   const isActive = canDrop && isOver
 
-  let backgroundColor = '#222'
+  let backgroundColor = '#606060'
 
   if (isActive) {
     backgroundColor = 'red'
   } else if (canDrop) {
-    backgroundColor = 'blue'
+    backgroundColor = '#606060'
   }
 
   return (
     <div ref={drop} style={{ ...style, backgroundColor }} data-testid="dustbin">
-      {isActive ? 'Release to drop' : 'Drag a box here'}
+      {isActive ? 'Release to delete' : 'Drag a box here to delete'}
     </div>
   )
 }

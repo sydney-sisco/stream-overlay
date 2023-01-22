@@ -15,17 +15,13 @@ const styles = {
 
 export const Container = () => {
 
+  // input fields
   const [label, setLabel] = useState('');
   const [timerDuration, setTimerDuration] = useState('');
 
-  // function handleChange(e) {
-  //   setLabel(e.target.value);
-  // }
+  // array of timers/labels
+  const [boxes, setBoxes] = useState([])
 
-  const [boxes, setBoxes] = useState([
-    // { top: 20, left: 80, title: 'Drag me around' },
-    // { top: 180, left: 20, title: 'Drag me too' },
-  ])
 
   const moveBox = useCallback(
     (id, left, top) => {
@@ -55,10 +51,13 @@ export const Container = () => {
   )
 
   const addItem = () => {
-    
     setBoxes([
       ...boxes, 
-      { top: 50, left: 400, title: label ? label : randomEmoji(), timerDuration: timerDuration ? timerDuration : 10 }
+      { top: 50,
+        left: 400,
+        title: label ? label : randomEmoji(),
+        timerDuration: timerDuration ? timerDuration : 10
+      }
     ]);
     
     // clear the input fields
@@ -70,7 +69,9 @@ export const Container = () => {
   return (
     <div ref={drop} style={styles}>
       <button onClick={() => setBoxes([])}>Clear</button>
+      {' '}
       <button onClick={addItem}>Add</button>
+      {' '}
       
       <Input
         label="Label: "
@@ -92,6 +93,7 @@ export const Container = () => {
             left={left}
             top={top}
             timerDuration={timerDuration}
+            clear={() => setBoxes(boxes.filter((_, i) => i !== key))}
           >
             {title}
           </Box>

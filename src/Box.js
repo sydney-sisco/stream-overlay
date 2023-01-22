@@ -11,15 +11,21 @@ const style = {
   cursor: 'move',
 }
 
-export const Box = ({ id, left, top, timerDuration, children }) => {
+export const Box = ({ id, left, top, timerDuration, clear, children }) => {
 
-  const [timer, setTimer] = useState(timerDuration);
   const [countdown, setCountdown] = useState();
 
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: ItemTypes.BOX,
       item: { id, left, top },
+      end: (item, monitor) => {
+        const dropResult = monitor.getDropResult()
+        if (item && dropResult.name === 'Dustbin') {
+          // alert(`You dropped ${item.name} into ${dropResult.name}!`)
+          clear();
+        }
+      },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
@@ -34,7 +40,7 @@ export const Box = ({ id, left, top, timerDuration, children }) => {
       setCountdown(<Countdown key={id} date={Date.now() + timerDuration * 60 * 1000} />);
     }
 
-  }, []);
+  }, [timerDuration, id]);
 
 
   if (isDragging) {
