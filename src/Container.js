@@ -13,10 +13,10 @@ const styles = {
 
 export const Container = () => {
 
-  const [boxes, setBoxes] = useState({
-    a: { top: 20, left: 80, title: 'Drag me around' },
-    b: { top: 180, left: 20, title: 'Drag me too' },
-  })
+  const [boxes, setBoxes] = useState([
+    { top: 20, left: 80, title: 'Drag me around' },
+    { top: 180, left: 20, title: 'Drag me too' },
+  ])
 
   const moveBox = useCallback(
     (id, left, top) => {
@@ -47,8 +47,9 @@ export const Container = () => {
   
   return (
     <div ref={drop} style={styles}>
-      {Object.keys(boxes).map((key) => {
-        const { left, top, title } = boxes[key]
+      <button onClick={() => setBoxes([])}>Clear</button>
+      <button onClick={() => setBoxes([...boxes, { top: 20, left: 20, title: 'Drag me too' }])}>Add</button>
+      {boxes.map(({ top, left, title }, key) => {
         return (
           <Box
             key={key}
