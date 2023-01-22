@@ -5,13 +5,13 @@ import { Box } from './Box.js'
 import { ItemTypes } from './ItemTypes.js'
 
 const styles = {
-  width: 300,
-  height: 300,
+  width: '100vw',
+  height: '100vh',
   border: '1px solid black',
   position: 'relative',
 }
 
-export const Container = ({ hideSourceOnDrag }) => {
+export const Container = () => {
 
   const [boxes, setBoxes] = useState({
     a: { top: 20, left: 80, title: 'Drag me around' },
@@ -55,7 +55,7 @@ export const Container = ({ hideSourceOnDrag }) => {
             id={key}
             left={left}
             top={top}
-            hideSourceOnDrag={hideSourceOnDrag}
+            hideSourceOnDrag
           >
             {title}
           </Box>
