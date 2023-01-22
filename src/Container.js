@@ -16,7 +16,7 @@ const styles = {
 export const Container = () => {
 
   const [label, setLabel] = useState('');
-  const [timerDuration, setTimerDuration] = useState();
+  const [timerDuration, setTimerDuration] = useState('');
 
   // function handleChange(e) {
   //   setLabel(e.target.value);
@@ -58,12 +58,12 @@ export const Container = () => {
     
     setBoxes([
       ...boxes, 
-      { top: 50, left: 400, title: label ? label : randomEmoji(), duration: timerDuration }
+      { top: 50, left: 400, title: label ? label : randomEmoji(), timerDuration: timerDuration ? timerDuration : 10 }
     ]);
     
     // clear the input fields
     setLabel('')
-    setTimerDuration();
+    setTimerDuration('');
   }
 
   

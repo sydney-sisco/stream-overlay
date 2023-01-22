@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDrag } from 'react-dnd'
 import { ItemTypes } from './ItemTypes.js'
+import Countdown from 'react-countdown';
 
 const style = {
   position: 'absolute',
@@ -13,6 +14,7 @@ const style = {
 export const Box = ({ id, left, top, timerDuration, children }) => {
 
   const [timer, setTimer] = useState(timerDuration);
+  const [countdown, setCountdown] = useState();
 
   const [{ isDragging }, drag] = useDrag(
     () => ({
@@ -25,26 +27,15 @@ export const Box = ({ id, left, top, timerDuration, children }) => {
     [id, left, top],
   )
 
-//   var start = Date.now();
-//   setInterval(function () {
-//     var delta = Date.now() - start; // milliseconds elapsed since start
-//     …
-// output(Math.floor(delta / 1000)); // in seconds
-// // alternatively just show wall clock time:
-// output(new Date().toUTCString());
-// }, 1000); // update about every second
-
   useEffect(() => {
+    // Update the document title using the browser API
+    // document.title = `You clicked ${count} times`;
+    if (timerDuration) {
+      setCountdown(<Countdown key={id} date={Date.now() + timerDuration * 60 * 1000} />);
+    }
 
-    const start = Date.now();
-
-    const interval = setInterval(() => {
-      const delta = Date.now() - start; // milliseconds elapsed since start
-      console.log(Math.floor(delta / 1000)); // in seconds
-      // console.log(new Date().toUTCString()); // wall clock time
-    }, 1000);
-    return () => clearInterval(interval);
   }, []);
+
 
   if (isDragging) {
     return <div ref={drag} />
@@ -57,7 +48,10 @@ export const Box = ({ id, left, top, timerDuration, children }) => {
       style={{ ...style, left, top }}
       data-testid="box"
     >
-      {children} {}
+      {children}
+      <br />
+      {countdown}
+      {/* <Countdown key={id} date={Date.now() + timerDuration * 60 * 1000} /> */}
     </div>
   )
 }
