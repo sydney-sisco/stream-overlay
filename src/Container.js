@@ -4,6 +4,7 @@ import { useDrop } from 'react-dnd'
 import { Box } from './Box.js'
 import { ItemTypes } from './ItemTypes.js'
 import { Dustbin } from './Dustbin.js'
+import randomEmoji from './random-emoji.js'
 
 const styles = {
   width: '100vw',
@@ -14,11 +15,12 @@ const styles = {
 
 export const Container = () => {
 
-  const [text, setText] = useState('');
+  const [label, setLabel] = useState('');
+  const [timerDuration, setTimerDuration] = useState();
 
-  function handleChange(e) {
-    setText(e.target.value);
-  }
+  // function handleChange(e) {
+  //   setLabel(e.target.value);
+  // }
 
   const [boxes, setBoxes] = useState([
     { top: 20, left: 80, title: 'Drag me around' },
@@ -51,16 +53,35 @@ export const Container = () => {
     }),
     [moveBox],
   )
+
+  const addItem = () => {
+    
+    setBoxes([
+      ...boxes, 
+      { top: 20, left: 200, title: label ? label : randomEmoji() }
+    ]);
+    
+    // clear the input fields
+    setLabel('')
+    setTimerDuration();
+  }
+
   
   return (
     <div ref={drop} style={styles}>
       <button onClick={() => setBoxes([])}>Clear</button>
-      <button onClick={() => {setBoxes([...boxes, { top: 20, left: 200, title: text }]); setText('')}}>Add</button>
+      <button onClick={addItem}>Add</button>
       
       <Input
+        label="Label: "
+        value={label}
+        onChange={e => setLabel(e.target.value)}
+      />
+
+      <Input
         label="Timer duration: "
-        value={text}
-        onChange={handleChange}
+        value={timerDuration}
+        onChange={e => setTimerDuration(e.target.value)}
       />
 
       {boxes.map(({ top, left, title }, key) => {
