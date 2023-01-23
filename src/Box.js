@@ -26,7 +26,6 @@ export const Box = ({ id, left, top, timerDuration, clear, children }) => {
       end: (item, monitor) => {
         const dropResult = monitor.getDropResult()
         if (item && dropResult.name === 'Dustbin') {
-          // alert(`You dropped ${item.name} into ${dropResult.name}!`)
           clear(id);
         }
       },
@@ -38,8 +37,6 @@ export const Box = ({ id, left, top, timerDuration, clear, children }) => {
   )
 
   useEffect(() => {
-    // Update the document title using the browser API
-    // document.title = `You clicked ${count} times`;
     if (timerDuration) {
       setCountdown(
         <Countdown key={id} date={Date.now() + timerDuration * 60 * 1000} daysInHours >
@@ -68,7 +65,6 @@ export const Box = ({ id, left, top, timerDuration, clear, children }) => {
       {children}
       <br />
       {countdown}
-      {/* <Countdown key={id} date={Date.now() + timerDuration * 60 * 1000} /> */}
     </div>
   )
 }
