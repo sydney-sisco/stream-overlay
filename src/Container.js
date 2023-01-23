@@ -23,8 +23,7 @@ export const Container = () => {
   const [timerDuration, setTimerDuration] = useState('');
 
   // array of timers/labels
-  const [boxes, setBoxes] = useState([])
-
+  const [boxes, setBoxes] = useState({})
 
   const moveBox = useCallback(
     (id, left, top) => {
@@ -54,14 +53,18 @@ export const Container = () => {
   )
 
   const addItem = () => {
-    setBoxes([
-      ...boxes, 
-      { top: 50,
-        left: 400,
-        title: label ? label : randomEmoji(),
-        timerDuration: timerDuration ? timerDuration : 10
+    const key = label ? label : randomEmoji();
+    setBoxes((boxes) => {
+      return {
+        ...boxes,
+        [key]: {
+          top: 50,
+          left: 400,
+          title: key,
+          timerDuration: timerDuration ? timerDuration : 10
+        }
       }
-    ]);
+    });
     
     // clear the input fields
     setLabel('')
@@ -93,7 +96,8 @@ export const Container = () => {
         />
       </div>
 
-      {boxes.map(({ top, left, title, timerDuration }, key) => {
+      {Object.keys(boxes).map((key) => {
+        const { left, top, title, timerDuration } = boxes[key]
         return (
           <Box
             key={key}
@@ -101,7 +105,13 @@ export const Container = () => {
             left={left}
             top={top}
             timerDuration={timerDuration}
-            clear={(key) => setBoxes(boxes.filter((_, i) => i !== key))}
+            clear={(key) => setBoxes((boxes) => {
+              // console.log('boxes', boxes);
+              delete boxes[key];
+              const newBoxes = { ...boxes };
+              // delete newBoxes[key];
+              return newBoxes;
+            })}
           >
             {title}
           </Box>
