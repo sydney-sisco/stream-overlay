@@ -1,10 +1,12 @@
 import update from 'immutability-helper'
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useContext } from 'react'
 import { useDrop } from 'react-dnd'
 import { Box } from './Box.js'
 import { ItemTypes } from './ItemTypes.js'
 import { Dustbin } from './Dustbin.js'
 import randomEmoji from './random-emoji.js'
+import { SocketContext } from './context/socket';
+
 
 const styles = {
   width: '100vw',
@@ -17,6 +19,7 @@ const styles = {
 }
 
 export const Container = () => {
+  const socket = useContext(SocketContext);
 
   // input fields
   const [label, setLabel] = useState('');
@@ -46,6 +49,9 @@ export const Container = () => {
 
   const moveBox = useCallback(
     (id, left, top) => {
+      // send the new position to the server
+      socket.emit('moveBox', {id, left, top});
+
       setBoxes(
         update(boxes, {
           [id]: {
