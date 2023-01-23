@@ -2,16 +2,12 @@ import { useDrop } from 'react-dnd'
 import { ItemTypes } from './ItemTypes.js'
 
 const style = {
-  height: '12rem',
-  width: '12rem',
-  marginRight: '1.5rem',
-  marginBottom: '1.5rem',
+  height: '50px',
+  width: '300px',
   color: 'white',
-  padding: '1rem',
   textAlign: 'center',
   fontSize: '1rem',
   lineHeight: 'normal',
-  float: 'left',
 }
 
 export const Dustbin = () => {
@@ -31,8 +27,6 @@ export const Dustbin = () => {
 
   if (isActive) {
     backgroundColor = 'red'
-  } else if (canDrop) {
-    backgroundColor = '#606060'
   }
 
   return (

@@ -11,6 +11,9 @@ const styles = {
   height: '100vh',
   border: '1px solid black',
   position: 'relative',
+
+  display: 'flex',
+  justifyContent: 'center',
 }
 
 export const Container = () => {
@@ -68,22 +71,27 @@ export const Container = () => {
   
   return (
     <div ref={drop} style={styles}>
-      <button onClick={() => setBoxes([])}>Clear</button>
-      {' '}
-      <button onClick={addItem}>Add</button>
-      {' '}
-      
-      <Input
-        label="Label: "
-        value={label}
-        onChange={e => setLabel(e.target.value)}
-      />
 
-      <Input
-        label="Timer duration: "
-        value={timerDuration}
-        onChange={e => setTimerDuration(e.target.value)}
-      />
+      <Dustbin />
+
+      <div>
+        <button onClick={() => setBoxes([])}>Clear</button>
+        {' '}
+        <button onClick={addItem}>Add</button>
+        {' '}
+        
+        <Input
+          label="Label: "
+          value={label}
+          onChange={e => setLabel(e.target.value)}
+        />
+
+        <Input
+          label="Timer duration (minutes): "
+          value={timerDuration}
+          onChange={e => setTimerDuration(e.target.value)}
+        />
+      </div>
 
       {boxes.map(({ top, left, title, timerDuration }, key) => {
         return (
@@ -93,15 +101,12 @@ export const Container = () => {
             left={left}
             top={top}
             timerDuration={timerDuration}
-            clear={() => setBoxes(boxes.filter((_, i) => i !== key))}
+            clear={(key) => setBoxes(boxes.filter((_, i) => i !== key))}
           >
             {title}
           </Box>
         )
       })}
-      <div style={{ overflow: 'hidden', clear: 'both' }}>
-        <Dustbin />
-      </div>
     </div>
   )
 }

@@ -23,7 +23,7 @@ export const Box = ({ id, left, top, timerDuration, clear, children }) => {
         const dropResult = monitor.getDropResult()
         if (item && dropResult.name === 'Dustbin') {
           // alert(`You dropped ${item.name} into ${dropResult.name}!`)
-          clear();
+          clear(id);
         }
       },
       collect: (monitor) => ({
@@ -37,7 +37,14 @@ export const Box = ({ id, left, top, timerDuration, clear, children }) => {
     // Update the document title using the browser API
     // document.title = `You clicked ${count} times`;
     if (timerDuration) {
-      setCountdown(<Countdown key={id} date={Date.now() + timerDuration * 60 * 1000} />);
+      setCountdown(
+        <Countdown key={id} date={Date.now() + timerDuration * 60 * 1000} daysInHours >
+          <>
+            <p>00:00:00:00</p>
+            <p>done!</p>
+          </>
+        </Countdown>
+      );
     }
 
   }, [timerDuration, id]);
