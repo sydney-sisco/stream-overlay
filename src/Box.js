@@ -11,6 +11,10 @@ const style = {
   cursor: 'move',
 }
 
+const doneStyle = {
+  color: 'red',
+}
+
 export const Box = ({ id, left, top, timerDuration, clear, children }) => {
 
   const [countdown, setCountdown] = useState();
@@ -39,10 +43,10 @@ export const Box = ({ id, left, top, timerDuration, clear, children }) => {
     if (timerDuration) {
       setCountdown(
         <Countdown key={id} date={Date.now() + timerDuration * 60 * 1000} daysInHours >
-          <>
-            <p>00:00:00:00</p>
+          <div style={doneStyle}>
+            {/* <p>00:00:00:00</p> */}
             <p>done!</p>
-          </>
+          </div>
         </Countdown>
       );
     }

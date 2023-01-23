@@ -23,7 +23,26 @@ export const Container = () => {
   const [timerDuration, setTimerDuration] = useState('');
 
   // array of timers/labels
-  const [boxes, setBoxes] = useState({})
+  const [boxes, setBoxes] = useState({
+    '🍕': {
+      top: 100,
+      left: 500,
+      title: '🍕',
+      timerDuration: 10
+    },
+    '🍔': {
+      top: 250,
+      left: 600,
+      title: '🍔',
+      timerDuration: 0.5
+    },
+    '🍟': {
+      top: 400,
+      left: 700,
+      title: '🍟',
+      timerDuration: 0.1
+    },
+  })
 
   const moveBox = useCallback(
     (id, left, top) => {
@@ -106,10 +125,8 @@ export const Container = () => {
             top={top}
             timerDuration={timerDuration}
             clear={(key) => setBoxes((boxes) => {
-              // console.log('boxes', boxes);
               delete boxes[key];
               const newBoxes = { ...boxes };
-              // delete newBoxes[key];
               return newBoxes;
             })}
           >
