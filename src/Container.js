@@ -1,5 +1,4 @@
-import update from 'immutability-helper'
-import { useCallback, useState, useContext, useEffect } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useDrop } from 'react-dnd'
 import { Box } from './Box.js'
 import { ItemTypes } from './ItemTypes.js'
@@ -29,19 +28,19 @@ export const Container = () => {
   const [boxes, setBoxes] = useState({
     '🍕': {
       top: 100,
-      left: 500,
+      left: 100,
       title: '🍕',
       timerDuration: 10
     },
     '🍔': {
       top: 250,
-      left: 600,
+      left: 100,
       title: '🍔',
       timerDuration: 0.5
     },
     '🍟': {
       top: 400,
-      left: 700,
+      left: 100,
       title: '🍟',
       timerDuration: 0.1
     },
@@ -49,42 +48,73 @@ export const Container = () => {
 
   useEffect(() => {
     socket.on("moveBox", ({ id, left, top }) => {
-      // update the position of the box
-      setBoxes(
-        update(boxes, {
+      setBoxes((boxes) => {
+        return {
+          ...boxes,
           [id]: {
-            $merge: { left, top },
-          },
-        }),
-      )
+            ...boxes[id],
+            left,
+            top
+          }
+        }
+      })
+    });
+
+    socket.on("addBox", ({ key, timerDuration }) => {
+      setBoxes((boxes) => {
+        return {
+          ...boxes,
+          [key]: {
+            top: 50,
+            left: 400,
+            title: key,
+            timerDuration: timerDuration ? timerDuration : 10
+          }
+        }
+      })
+    });
+
+    socket.on("deleteBox", ({key}) => {
+      setBoxes((boxes) => {
+        const newBoxes = { ...boxes };
+        delete newBoxes[key];
+        return newBoxes;
+      })
     });
 
     return () => {
       socket.off("moveBox");
+      socket.off("addBox");
+      socket.off("deleteBox");
     }
   }, []);
 
-  const moveBox = useCallback(
-    (id, left, top) => {
-      // send the new position to the server
-      socket.emit('moveBox', {id, left, top});
+  const moveBox = (id, left, top) => {
+    // send the new position to the server
+    socket.emit('moveBox', {id, left, top});
 
-      setBoxes(
-        update(boxes, {
-          [id]: {
-            $merge: { left, top },
-          },
-        }),
-      )
-    },
-    [boxes, setBoxes],
-  )
+    setBoxes((boxes) => {
+      return {
+        ...boxes,
+        [id]: {
+          ...boxes[id],
+          left,
+          top
+        }
+      }
+    })
+  };
 
   const [, drop] = useDrop(
     () => ({
       accept: ItemTypes.BOX,
       drop(item, monitor) {
         const delta = monitor.getDifferenceFromInitialOffset()
+        
+        if (!delta) {
+          return undefined
+        }
+        
         const left = Math.round(item.left + delta.x)
         const top = Math.round(item.top + delta.y)
         moveBox(item.id, left, top)
@@ -92,10 +122,14 @@ export const Container = () => {
       },
     }),
     [moveBox],
-  )
+  );
 
   const addItem = () => {
     const key = label ? label : randomEmoji();
+
+    // send the new box to the server
+    socket.emit('addBox', {key, timerDuration});
+
     setBoxes((boxes) => {
       return {
         ...boxes,
@@ -111,8 +145,18 @@ export const Container = () => {
     // clear the input fields
     setLabel('')
     setTimerDuration('');
-  }
+  };
 
+  const deleteItem = (key) => setBoxes((boxes) => {
+
+    // send the delete to the server
+    socket.emit('deleteBox', {key});
+
+    delete boxes[key];
+    const newBoxes = { ...boxes };
+    return newBoxes;
+  });
+  
   
   return (
     <div ref={drop} style={styles}>
@@ -147,11 +191,7 @@ export const Container = () => {
             left={left}
             top={top}
             timerDuration={timerDuration}
-            clear={(key) => setBoxes((boxes) => {
-              delete boxes[key];
-              const newBoxes = { ...boxes };
-              return newBoxes;
-            })}
+            clear={()=>deleteItem(key)}
           >
             {title}
           </Box>

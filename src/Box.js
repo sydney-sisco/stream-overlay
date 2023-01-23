@@ -41,7 +41,6 @@ export const Box = ({ id, left, top, timerDuration, clear, children }) => {
       setCountdown(
         <Countdown key={id} date={Date.now() + timerDuration * 60 * 1000} daysInHours >
           <div style={doneStyle}>
-            {/* <p>00:00:00:00</p> */}
             <p>done!</p>
           </div>
         </Countdown>
