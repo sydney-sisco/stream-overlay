@@ -1,2 +1,6 @@
-# drag and drop
-will it ever work?
+# Stream Overlay
+Drag and drop, websockets, timers!
+
+### Dev
+
+`npm run start`
