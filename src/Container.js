@@ -1,5 +1,5 @@
 import update from 'immutability-helper'
-import { useCallback, useState, useContext } from 'react'
+import { useCallback, useState, useContext, useEffect } from 'react'
 import { useDrop } from 'react-dnd'
 import { Box } from './Box.js'
 import { ItemTypes } from './ItemTypes.js'
@@ -46,6 +46,23 @@ export const Container = () => {
       timerDuration: 0.1
     },
   })
+
+  useEffect(() => {
+    socket.on("moveBox", ({ id, left, top }) => {
+      // update the position of the box
+      setBoxes(
+        update(boxes, {
+          [id]: {
+            $merge: { left, top },
+          },
+        }),
+      )
+    });
+
+    return () => {
+      socket.off("moveBox");
+    }
+  }, []);
 
   const moveBox = useCallback(
     (id, left, top) => {
