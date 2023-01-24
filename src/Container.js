@@ -26,23 +26,43 @@ export const Container = () => {
 
   // array of timers/labels
   const [boxes, setBoxes] = useState({
-    '🍕': {
-      top: 100,
-      left: 100,
-      title: '🍕',
-      timerDuration: 10
+    // '🍕': {
+    //   top: 100,
+    //   left: 100,
+    //   title: '🍕',
+    //   timerDuration: 10
+    // },
+    // '🍔': {
+    //   top: 250,
+    //   left: 100,
+    //   title: '🍔',
+    //   timerDuration: 0.5
+    // },
+    // '🍟': {
+    //   top: 400,
+    //   left: 100,
+    //   title: '🍟',
+    //   timerDuration: 0.1
+    // },
+    '↘️': {
+      top: 60,
+      left: 0,
+      title: '↘️',
     },
-    '🍔': {
-      top: 250,
-      left: 100,
-      title: '🍔',
-      timerDuration: 0.5
+    '↙️': {
+      top: 60,
+      left: 640,
+      title: '↙️',
     },
-    '🍟': {
-      top: 400,
-      left: 100,
-      title: '🍟',
-      timerDuration: 0.1
+    '↗️': {
+      top: 480,
+      left: 0,
+      title: '↗️',
+    },
+    '↖️': {
+      top: 480,
+      left: 640,
+      title: '↖️',
     },
   })
 
@@ -68,7 +88,7 @@ export const Container = () => {
             top: 50,
             left: 400,
             title: key,
-            timerDuration: timerDuration ? timerDuration : 10
+            timerDuration: timerDuration ? timerDuration : null
           }
         }
       })
@@ -137,7 +157,7 @@ export const Container = () => {
           top: 50,
           left: 400,
           title: key,
-          timerDuration: timerDuration ? timerDuration : 10
+          timerDuration: timerDuration ? timerDuration : null
         }
       }
     });
