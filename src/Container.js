@@ -5,6 +5,7 @@ import { ItemTypes } from './ItemTypes.js'
 import { Dustbin } from './Dustbin.js'
 import randomEmoji from './random-emoji.js'
 import { SocketContext } from './context/socket';
+import { v4 as uuidv4 } from 'uuid';
 
 
 const styles = {
@@ -44,22 +45,22 @@ export const Container = () => {
     //   title: '🍟',
     //   timerDuration: 0.1
     // },
-    '↘️': {
+    '0': {
       top: 60,
       left: 0,
       title: '↘️',
     },
-    '↙️': {
+    '1': {
       top: 60,
       left: 640,
       title: '↙️',
     },
-    '↗️': {
+    '2': {
       top: 480,
       left: 0,
       title: '↗️',
     },
-    '↖️': {
+    '3': {
       top: 480,
       left: 640,
       title: '↖️',
@@ -80,14 +81,14 @@ export const Container = () => {
       })
     });
 
-    socket.on("addBox", ({ key, timerDuration }) => {
+    socket.on("addBox", ({ key, title, timerDuration }) => {
       setBoxes((boxes) => {
         return {
           ...boxes,
           [key]: {
             top: 50,
             left: 400,
-            title: key,
+            title: title,
             timerDuration: timerDuration ? timerDuration : null
           }
         }
@@ -145,10 +146,11 @@ export const Container = () => {
   );
 
   const addItem = () => {
-    const key = label ? label : randomEmoji();
+    const key = uuidv4();
+    const title = label ? label : randomEmoji();
 
     // send the new box to the server
-    socket.emit('addBox', {key, timerDuration});
+    socket.emit('addBox', {key, title, timerDuration});
 
     setBoxes((boxes) => {
       return {
@@ -156,7 +158,7 @@ export const Container = () => {
         [key]: {
           top: 50,
           left: 400,
-          title: key,
+          title: title,
           timerDuration: timerDuration ? timerDuration : null
         }
       }
