@@ -6,12 +6,12 @@ import { Dustbin } from './Dustbin.js'
 import randomEmoji from './random-emoji.js'
 import { SocketContext } from './context/socket';
 import { v4 as uuidv4 } from 'uuid';
+import { Draw } from './Draw.js';
 
 
 const styles = {
   width: '100vw',
   height: '100vh',
-  border: '1px solid black',
   position: 'relative',
 
   display: 'flex',
@@ -203,6 +203,8 @@ export const Container = () => {
           onChange={e => setTimerDuration(e.target.value)}
         />
       </div>
+
+      <Draw />
 
       {Object.keys(boxes).map((key) => {
         const { left, top, title, timerDuration } = boxes[key]
