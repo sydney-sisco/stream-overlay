@@ -7,7 +7,7 @@ import randomEmoji from './random-emoji.js'
 import { SocketContext } from './context/socket';
 import { v4 as uuidv4 } from 'uuid';
 import { Cursor } from './Cursor.js';
-import { useCursorShare } from './hooks/useCursorShare.js';
+import  useCursorShare  from './hooks/useCursorShare.js';
 
 
 const styles = {

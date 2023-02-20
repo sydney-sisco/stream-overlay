@@ -24,4 +24,4 @@ const useCursorShare = socket => {
   return [cursor, throttledHandleMouseMove];
 }
 
-module.exports = {useCursorShare};
+export default useCursorShare;
