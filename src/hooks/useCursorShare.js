@@ -3,7 +3,6 @@ const _ = require('lodash');
 
 const useCursorShare = socket => {
   const [cursor, setCursor] = useState(null);
-  const [cursorShare, setCursorShare] = useState(null);
 
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
