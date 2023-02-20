@@ -2,7 +2,7 @@ const { useState, useEffect } = require('react');
 const _ = require('lodash');
 
 const useCursorShare = socket => {
-  const [cursor, setCursor] = useState(null);
+  const [cursor, setCursor] = useState({});
 
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
@@ -13,7 +13,19 @@ const useCursorShare = socket => {
 
   useEffect(() => {
     socket.on('cursor', (data) => {
-      setCursor(data);
+      // update the cursor state
+      // find the cursor with the matching id
+      // update the cursor with the new data
+      setCursor((cursor) => {
+        return {
+          ...cursor,
+          [data.id]: {
+            ...cursor[data.id],
+            x: data.x,
+            y: data.y
+          }
+        }
+      });
     });
 
     return () => {

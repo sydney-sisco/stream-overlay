@@ -8,6 +8,7 @@ import { SocketContext } from './context/socket';
 import { v4 as uuidv4 } from 'uuid';
 import { Cursor } from './Cursor.js';
 import  useCursorShare  from './hooks/useCursorShare.js';
+import _ from 'lodash'
 
 
 const styles = {
@@ -21,7 +22,7 @@ const styles = {
 
 export const Container = () => {
   const socket = useContext(SocketContext);
-  const [cursor, handleMouseMove] = useCursorShare(socket);
+  const [cursors, handleMouseMove] = useCursorShare(socket);
 
   // input fields
   const [label, setLabel] = useState('');
@@ -206,9 +207,20 @@ export const Container = () => {
         />
       </div>
 
-      {cursor && 
+      {/* {cursor && 
         <Cursor x={cursor.x} y={cursor.y} />
-      }
+      } */}
+      {_.map(cursors, (cursor, index) => {
+        return (
+          <Cursor
+            key={index}
+            x={cursor.x}
+            y={cursor.y}
+            // give each cursor a random color
+            
+          />
+        )
+      })}
 
       {Object.keys(boxes).map((key) => {
         const { left, top, title, timerDuration } = boxes[key]
