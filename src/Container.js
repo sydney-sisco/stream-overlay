@@ -6,7 +6,8 @@ import { Dustbin } from './Dustbin.js'
 import randomEmoji from './random-emoji.js'
 import { SocketContext } from './context/socket';
 import { v4 as uuidv4 } from 'uuid';
-import { Draw } from './Draw.js';
+import { Cursor } from './Cursor.js';
+import { useCursorShare } from './hooks/useCursorShare.js';
 
 
 const styles = {
@@ -20,6 +21,7 @@ const styles = {
 
 export const Container = () => {
   const socket = useContext(SocketContext);
+  const [cursor, handleMouseMove] = useCursorShare(socket);
 
   // input fields
   const [label, setLabel] = useState('');
@@ -181,7 +183,7 @@ export const Container = () => {
   
   
   return (
-    <div ref={drop} style={styles}>
+    <div ref={drop} style={styles} onMouseMove={handleMouseMove} >
 
       <Dustbin />
 
@@ -204,7 +206,9 @@ export const Container = () => {
         />
       </div>
 
-      <Draw />
+      {cursor && 
+        <Cursor x={cursor.x} y={cursor.y} />
+      }
 
       {Object.keys(boxes).map((key) => {
         const { left, top, title, timerDuration } = boxes[key]
