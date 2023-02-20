@@ -2,7 +2,7 @@ const { useState, useEffect } = require('react');
 const _ = require('lodash');
 
 const useCursorShare = socket => {
-  const [cursor, setCursor] = useState({});
+  const [cursors, setCursor] = useState({});
 
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
@@ -22,7 +22,8 @@ const useCursorShare = socket => {
           [data.id]: {
             ...cursor[data.id],
             x: data.x,
-            y: data.y
+            y: data.y,
+            color: data.color,
           }
         }
       });
@@ -33,7 +34,7 @@ const useCursorShare = socket => {
     }
   }, []);
 
-  return [cursor, throttledHandleMouseMove];
+  return [cursors, throttledHandleMouseMove];
 }
 
 export default useCursorShare;

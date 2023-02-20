@@ -207,17 +207,13 @@ export const Container = () => {
         />
       </div>
 
-      {/* {cursor && 
-        <Cursor x={cursor.x} y={cursor.y} />
-      } */}
-      {_.map(cursors, (cursor, index) => {
+      {_.map(cursors, (cursor, key) => {
         return (
           <Cursor
-            key={index}
+            key={key}
             x={cursor.x}
             y={cursor.y}
-            // give each cursor a random color
-            
+            color={cursor.color}
           />
         )
       })}
