@@ -8,7 +8,7 @@ import { SocketContext } from './context/socket';
 import { v4 as uuidv4 } from 'uuid';
 import { Cursor } from './Cursor.js';
 import  useCursorShare  from './hooks/useCursorShare.js';
-import _ from 'lodash'
+// import _ from 'lodash'
 
 
 const styles = {
@@ -207,7 +207,17 @@ export const Container = () => {
         />
       </div>
 
-      {_.map(cursors, (cursor, key) => {
+      {/* {_.map(cursors, (cursor, key) => {
+        return (
+          <Cursor
+            key={key}
+            x={cursor.x}
+            y={cursor.y}
+            color={cursor.color}
+          />
+        )
+      })} */}
+      {cursors.map((cursor, key) => {
         return (
           <Cursor
             key={key}
