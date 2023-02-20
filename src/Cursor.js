@@ -36,6 +36,6 @@ export const Cursor = ({x, y, color}) => {
 
         // do not block mouse events
         pointerEvents: 'none',
-      }} >{color}</div>
+      }} />
   )
 };
