@@ -17,11 +17,14 @@ const useCursorShare = socket => {
       // find the cursor with the matching id
       // update the cursor with the new data
       setCursor((cursor) => {
-        // keep 1000 cursors
-        if (cursor.length > 100) {
-          cursor.shift();
+        const index = cursor.findIndex(c => c.id === data.id);
+        if (index === -1) {
+          return [...cursor, data];
+        } else {
+          const newCursor = [...cursor];
+          newCursor[index] = data;
+          return newCursor;
         }
-        return [...cursor, data]
       });
     });
 

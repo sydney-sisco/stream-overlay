@@ -32,7 +32,7 @@ export const Cursor = ({x, y, color}) => {
         backgroundColor: colors[color],
         borderRadius: '50%',
 
-        transition: 'all 0.5s ease-in-out',
+        // transition: 'all 0.25s linear',
 
         // do not block mouse events
         pointerEvents: 'none',
