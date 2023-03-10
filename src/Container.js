@@ -8,7 +8,7 @@ import { SocketContext } from './context/socket';
 import { v4 as uuidv4 } from 'uuid';
 import { Cursor } from './Cursor.js';
 import  useCursorShare  from './hooks/useCursorShare.js';
-// import _ from 'lodash'
+import useTwitchChat from './hooks/useTwitchChat.js';
 
 
 const styles = {
@@ -22,7 +22,8 @@ const styles = {
 
 export const Container = () => {
   const socket = useContext(SocketContext);
-  const [cursors, handleMouseMove] = useCursorShare(socket);
+  // const [cursors, handleMouseMove] = useCursorShare(socket);
+  const [cursors, handleMouseMove] = [[], () => {}];
 
   // input fields
   const [label, setLabel] = useState('');

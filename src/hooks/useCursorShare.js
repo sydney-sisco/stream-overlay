@@ -6,6 +6,7 @@ const useCursorShare = socket => {
 
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
+    // console.log('mouse move', e)
     socket.emit('cursor', { x: clientX, y: clientY });
   };
 

@@ -21,7 +21,7 @@ export const Cursor = ({x, y, color}) => {
   /* a cursor 
   github copilot wrote this entire thing and it worked first try !!! */
 
-  console.log('rendering cursor', x, y, color);
+  // console.log('rendering cursor', x, y, color);
   return (
       <div style={{
         position: 'absolute',
